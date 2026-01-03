@@ -78,14 +78,20 @@ let users = {
   mehmet: "user"
 };
 
-let userName = prompt("Adınızı Giriniz");
+let inputUser = prompt("Adınızı Giriniz");
 
-let value = Object.entries(users);
+let found = false;
+
+// let key = Object.entries(users);
 
 for (const [key, value] of Object.entries(users)) {
-  if (value !== "admin") {
-    console.log("Kullanıcı Bulunamadı");
-  } else if (value === "admin") {
+  // console.log(key);
+  if (key !== inputUser) {
+    found = false;
+    console.log("İşlem Yapmak İçin Yetkiniz Yok");
+    break;
+  } else if (key === inputUser) {
+    found = true
     confirm("Kargo İşlemleri Başlasın Mı?");
     if (true) {
       let senderName = prompt("Gönderici Adını Giriniz");
@@ -94,7 +100,6 @@ for (const [key, value] of Object.entries(users)) {
       let recipientDistrict = prompt("Alıcının İlçe Bilgisini Giriniz");
       let cargoCompany = prompt("Kargo Şirketinin Adını Giriniz");
       let cargoTrackingNumber = prompt("Kargo Takip Numarasını Giriniz");
-
 
       let cargo = {
         sender: senderName,
