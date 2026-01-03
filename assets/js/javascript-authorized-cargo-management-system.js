@@ -1,10 +1,7 @@
 /*
 
 Yetkili Kargo Yönetim Sistemi - Bölüm Sonu Canavarı
-Nihat DUYSAK
-•
-Dec 21, 2025
-100 points
+
 NOT: Diğer örnekleri yapmadan bu örneğe geçmeyiniz !!!
 
 Senaryo
