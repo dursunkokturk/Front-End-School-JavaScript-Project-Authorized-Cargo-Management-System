@@ -80,49 +80,81 @@ let users = {
 
 let inputUser = prompt("Adınızı Giriniz");
 
-let found = false;
+// Object Icindeki key'leri Tarama Yapiyoruz
+let userKeys = Object.keys(users);
+
+if (!userKeys.includes(inputUser)) {
+  console.log("Kullanıcı bulunamadı");
+} else {
+  console.log("Kullanıcı bulundu");
+}
+
+// Girilen Ismin Admin Olma Yetkisi Kontrolu
+let isAdmin = false;
 
 for (const [key, value] of Object.entries(users)) {
-  if (key !== inputUser) {
-    found = false;
-  } else if (key === inputUser) {
-    found = true;
+  if (key === inputUser) {
     if (value === "admin") {
-      confirm("Kargo İşlemleri Başlasın Mı?");
-      if (true) {
-        let senderName = prompt("Gönderici Adını Giriniz");
-        let recipientName = prompt("Alıcı Adını Giriniz");
-        let recipientCity = prompt("Alıcının Şehir Bilgisini Giriniz");
-        let recipientDistrict = prompt("Alıcının İlçe Bilgisini Giriniz");
-        let cargoCompany = prompt("Kargo Şirketinin Adını Giriniz");
-        let cargoTrackingNumber = prompt("Kargo Takip Numarasını Giriniz");
-
-        let cargo = {
-          sender: senderName,
-          recipientInformations: {
-            recipientname: recipientName,
-            recipientaddress: {
-              city: recipientCity,
-              district: recipientDistrict
-            }
-          },
-          cargoCompanyInformations: {
-            companyName: cargoCompany,
-            trackingNumber: cargoTrackingNumber
-          }
-        }
-
-        console.log("Kargo Gönderim Bilgileri");
-        console.log(`Gönderici Adı : ${cargo.sender}`);
-        console.log(`Alıcı Adı : ${cargo.recipientInformations.recipientname}`);
-        console.log(`Alıcı Şehir Adı : ${cargo.recipientInformations.recipientaddress.city}`);
-        console.log(`Alıcı İlçe Adı : ${cargo.recipientInformations.recipientaddress.district}`);
-        console.log(`Kargo Firması Adı : ${cargo.cargoCompanyInformations.companyName}`);
-        console.log(`Kargo Takip Numarası : ${cargo.cargoCompanyInformations.trackingNumber}`);
-      }
-    } else if (value !== "admin") {
-      console.log("İşlem Yapmam İçin Yetkiniz Yok");
-      break;
+      isAdmin = true;
     }
+    break;
+  }
+}
+
+// Girilen Isim Object Icinde Olsa Bile Admin Olma Kontrolu
+if (!isAdmin) {
+  console.log("Yetkiniz yok");
+} else {
+  console.log("Admin onaylandı, devam edebilirsiniz");
+  // Admin onayı
+  let isApproved = confirm("Kargo işlemleri başlasın mı?");
+
+  /*Girilen Isim Admin Yetkisi Yoksa İslemi Durdur */
+  if (!isApproved) {
+    console.log("İşlem iptal edildi");
+  } else {
+    /* Girilen Isim Admin Yetkisi Varsa Kargo Bilgilerini Iste */
+    let senderName = prompt("Gönderici Adını Giriniz");
+    let recipientName = prompt("Alıcı Adını Giriniz");
+    let recipientCity = prompt("Alıcının Şehir Bilgisini Giriniz");
+    let recipientDistrict = prompt("Alıcının İlçe Bilgisini Giriniz");
+    let cargoCompanyName = prompt("Kargo Şirketinin Adını Giriniz");
+    let cargoTrackingNumber = prompt("Kargo Takip Numarasını Giriniz");
+
+    /* Kargo Bilgilerini Nested Object Olarak Aliyoruz */
+    let cargoInformations = {
+      sender: senderName,
+      recipientInformations: {
+        recipientname: recipientName,
+        address: {
+          recipientcity: recipientCity,
+          recipientdistrict: recipientDistrict
+        }
+      },
+      cargoInformations: {
+        cargoName: cargoCompanyName,
+        trackingNumber: cargoTrackingNumber
+      }
+    };
+
+    /* Kargo Bilgileri Alindiktan Sonra
+      Object Icinde Yeni Bir Ozellik Ekliyoruz 
+      Cargo Update (Spread) */
+    let updatedCargo = {
+      ...cargoInformations,
+      status: "Hazırlanıyor"
+    };
+
+    // Cargo Summary (Object.entries)
+    console.log("Kargo Özeti");
+    for (const [key, value] of Object.entries(updatedCargo)) {
+      console.log(key, ":", value);
+    }
+
+    // Recipient Informations (Rest)
+    let { name, ...addressInfo } = updatedCargo.recipientInformations;
+
+    console.log("Alıcı İsmi:", name);
+    console.log("Alıcı Adres Bilgileri:", addressInfo);
   }
 }
