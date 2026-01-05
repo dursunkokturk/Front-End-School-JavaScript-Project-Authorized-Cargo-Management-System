@@ -82,49 +82,47 @@ let inputUser = prompt("Adınızı Giriniz");
 
 let found = false;
 
-// let key = Object.entries(users);
-
 for (const [key, value] of Object.entries(users)) {
-  // console.log(key);
   if (key !== inputUser) {
     found = false;
-    console.log("İşlem Yapmak İçin Yetkiniz Yok");
-    break;
   } else if (key === inputUser) {
-    found = true
-    confirm("Kargo İşlemleri Başlasın Mı?");
-    if (true) {
-      let senderName = prompt("Gönderici Adını Giriniz");
-      let recipientName = prompt("Alıcı Adını Giriniz");
-      let recipientCity = prompt("Alıcının Şehir Bilgisini Giriniz");
-      let recipientDistrict = prompt("Alıcının İlçe Bilgisini Giriniz");
-      let cargoCompany = prompt("Kargo Şirketinin Adını Giriniz");
-      let cargoTrackingNumber = prompt("Kargo Takip Numarasını Giriniz");
+    found = true;
+    if (value === "admin") {
+      confirm("Kargo İşlemleri Başlasın Mı?");
+      if (true) {
+        let senderName = prompt("Gönderici Adını Giriniz");
+        let recipientName = prompt("Alıcı Adını Giriniz");
+        let recipientCity = prompt("Alıcının Şehir Bilgisini Giriniz");
+        let recipientDistrict = prompt("Alıcının İlçe Bilgisini Giriniz");
+        let cargoCompany = prompt("Kargo Şirketinin Adını Giriniz");
+        let cargoTrackingNumber = prompt("Kargo Takip Numarasını Giriniz");
 
-      let cargo = {
-        sender: senderName,
-        recipientInformations: {
-          recipientname: recipientName,
-          recipientaddress: {
-            city: recipientCity,
-            district: recipientDistrict
+        let cargo = {
+          sender: senderName,
+          recipientInformations: {
+            recipientname: recipientName,
+            recipientaddress: {
+              city: recipientCity,
+              district: recipientDistrict
+            }
+          },
+          cargoCompanyInformations: {
+            companyName: cargoCompany,
+            trackingNumber: cargoTrackingNumber
           }
-        },
-        cargoCompanyInformations: {
-          companyName: cargoCompany,
-          trackingNumber: cargoTrackingNumber
         }
-      }
 
-      console.log("Kargo Gönderim Bilgileri");
-      console.log(`Gönderici Adı : ${cargo.sender}`);
-      console.log(`Alıcı Adı : ${cargo.recipientInformations.recipientname}`);
-      console.log(`Alıcı Şehir Adı : ${cargo.recipientInformations.recipientaddress.city}`);
-      console.log(`Alıcı İlçe Adı : ${cargo.recipientInformations.recipientaddress.district}`);
-      console.log(`Kargo Firması Adı : ${cargo.cargoCompanyInformations.companyName}`);
-      console.log(`Kargo Takip Numarası : ${cargo.cargoCompanyInformations.trackingNumber}`);
+        console.log("Kargo Gönderim Bilgileri");
+        console.log(`Gönderici Adı : ${cargo.sender}`);
+        console.log(`Alıcı Adı : ${cargo.recipientInformations.recipientname}`);
+        console.log(`Alıcı Şehir Adı : ${cargo.recipientInformations.recipientaddress.city}`);
+        console.log(`Alıcı İlçe Adı : ${cargo.recipientInformations.recipientaddress.district}`);
+        console.log(`Kargo Firması Adı : ${cargo.cargoCompanyInformations.companyName}`);
+        console.log(`Kargo Takip Numarası : ${cargo.cargoCompanyInformations.trackingNumber}`);
+      }
+    } else if (value !== "admin") {
+      console.log("İşlem Yapmam İçin Yetkiniz Yok");
+      break;
     }
-  } else if (value === "user") {
-    console.log("İşlem Yapmak İçin Yetkiniz Yok");
   }
 }
